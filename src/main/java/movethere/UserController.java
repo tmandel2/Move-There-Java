@@ -70,19 +70,30 @@ public class UserController {
         }
     }
 //NEED TO EDIT
-//    @PutMapping("/users/{id}")
-//    public User updateUser(@RequestBody User, @PathVariable Long id, HttpSession session) throws Exception{
-//        Optional<User> editedUser = userRepository.findById(id);
-//        if(editedUser.isPresent()){
-//            User userToEdit = editedUser.get();
-//            userToEdit.setUsername(User.username);
-//            session.setAttribute("username", userToEdit.getUsername());
-//            userToEdit.setPassword(userToEdit.getPassword());
-//            return userRepository.save(userToEdit);
-//        } else {
-//            throw new Exception("not a user");
-//        }
-//    }
+    @PutMapping("/users/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable Long id, HttpSession session) throws Exception{
+        Optional<User> editedUser = userRepository.findById(id);
+        if(editedUser.isPresent()){
+            User userToEdit = editedUser.get();
+            userToEdit.setUsername(user.getUsername());
+            userToEdit.setPassword(user.getPassword());
+            userToEdit.setEmail(user.getEmail());
+            userToEdit.setCurrentZip(user.getCurrentZip());
+            userToEdit.setWalkabilityImportance(user.getWalkabilityImportance());
+            userToEdit.setMedianDesiredAge(user.getMedianDesiredAge());
+            userToEdit.setMedianAgeImportance(user.getMedianAgeImportance());
+            userToEdit.setDiversityImportance(user.getDiversityImportance());
+            userToEdit.setHouseValueImportance(user.getHouseValueImportance());
+            userToEdit.setDesiredWeather(user.getDesiredWeather());
+            userToEdit.setWeatherImportance(user.getWeatherImportance());
+            userToEdit.setNearbyAmenities(user.getNearbyAmenities());
+            userToEdit.setAmenitiesImportance(user.getAmenitiesImportance());
+            session.setAttribute("username", userToEdit.getUsername());
+            return userService.saveUser(userToEdit);
+        } else {
+            throw new Exception("not a user");
+        }
+    }
 
     @DeleteMapping("/users/{id}")
     public Optional<User> deleteUser(@PathVariable Long id, HttpSession session) {
