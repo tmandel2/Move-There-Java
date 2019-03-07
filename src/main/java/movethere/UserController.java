@@ -55,7 +55,7 @@ public class UserController {
         return;
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public HashMap show(@PathVariable Long id) throws Exception{
         Optional<User> foundUser = userRepository.findById(id);
         if(foundUser.isPresent()){

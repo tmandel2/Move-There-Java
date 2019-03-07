@@ -21,7 +21,7 @@ public class Address {
 
     private String state;
 
-    private Short zipCode;
+    private Integer zipCode;
 //Get these two from geocode on first enter
     private Double latitude;
 
@@ -87,11 +87,11 @@ public class Address {
         this.state = state;
     }
 
-    public Short getZipCode() {
+    public Integer getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(Short zipCode) {
+    public void setZipCode(Integer zipCode) {
         this.zipCode = zipCode;
     }
 
