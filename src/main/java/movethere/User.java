@@ -18,7 +18,7 @@ public class User {
 
     private String password;
 
-    private Short currentZip;
+    private Integer currentZip;
 
     private Short walkabilityImportance;
 
@@ -74,11 +74,11 @@ public class User {
         this.email = email;
     }
 
-    public Short getCurrentZip() {
+    public Integer getCurrentZip() {
         return currentZip;
     }
 
-    public void setCurrentZip(Short currentZip) {
+    public void setCurrentZip(Integer currentZip) {
         this.currentZip = currentZip;
     }
 

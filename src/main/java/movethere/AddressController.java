@@ -18,17 +18,25 @@ public class AddressController {
 
     @PostMapping("/addresses")
     public Address createAddress(@RequestBody Address address, HttpSession session) throws Exception{
+//        User user = userRepository.findByUsername(session.getAttribute("username").toString());
+////        COMMENTED OUT FOR TESTING
+//        if(user == null){
+//            throw new Exception("Log in");
+//        }
+//        addressRepository.save(address);
+//        Set<Address> addresses = user.getAddresses();
+//        addresses.add(address);
+//        user.setAddresses(addresses);
+//        userRepository.save(user);
+//        return address;
+
         User user = userRepository.findByUsername(session.getAttribute("username").toString());
-//        COMMENTED OUT FOR TESTING
         if(user == null){
-            throw new Exception("Log in");
+            throw new Exception("You must log in");
         }
-        addressRepository.save(address);
-        Set<Address> addresses = user.getAddresses();
-        addresses.add(address);
-        user.setAddresses(addresses);
-        userRepository.save(user);
-        return address;
+        address.setUser(user);
+        Address createdAddress = addressRepository.save(address);
+        return createdAddress;
     }
 
     @GetMapping("/addresses")
@@ -42,7 +50,7 @@ public class AddressController {
         Address foundAddress = addressRepository.findById(id).get();
         return foundAddress;
     }
-
+//Edit route will need to rerun all the API calls on the front, so all these need to be updated
     @PutMapping("/addresses/{id}")
     public Address updateAddress(@RequestBody Address address, @PathVariable Long id) throws Exception{
         Optional<Address> editedAddress = addressRepository.findById(id);

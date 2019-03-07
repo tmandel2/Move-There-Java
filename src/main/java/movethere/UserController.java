@@ -24,6 +24,7 @@ public class UserController {
 
     @PostMapping("/auth/registration")
     public User createUser(@RequestBody User user, HttpSession session){
+        System.out.print(user);
         User createdUser = userService.saveUser(user);
         session.setAttribute("username", createdUser.getUsername());
         session.setAttribute("userId", createdUser.getId());
