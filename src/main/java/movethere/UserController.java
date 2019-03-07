@@ -22,4 +22,76 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-}
+    @PostMapping("/auth/registration")
+    public User createUser(@RequestBody User user, HttpSession session){
+        User createdUser = userService.saveUser(user);
+        session.setAttribute("username", createdUser.getUsername());
+        session.setAttribute("userId", createdUser.getId());
+        return createdUser;
+    }
+
+    @PostMapping("/auth/login")
+    public User login(@RequestBody User login, HttpSession session) throws Exception{
+        bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        User user = userRepository.findByUsername(login.getUsername());
+        if(user ==  null){
+            throw new Exception("No User");
+        }
+        boolean valid = bCryptPasswordEncoder.matches(login.getPassword(), user.getPassword());
+        if(valid){
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("userId", user.getId());
+            return user;
+        }else{
+            throw new Exception("No Password");
+        }
+    }
+
+    @GetMapping("/auth/logout")
+    public void logout(HttpSession session) {
+        session.removeAttribute("username");
+        session.removeAttribute("userId");
+        session.invalidate();
+        return;
+    }
+
+    @GetMapping("/user/{id}")
+    public HashMap show(@PathVariable Long id) throws Exception{
+        Optional<User> foundUser = userRepository.findById(id);
+        if(foundUser.isPresent()){
+            User user = foundUser.get();
+            Set<Address> addresses = user.getAddresses();
+            HashMap<Object, Object> result = new HashMap<Object, Object>();
+            result.put("user", user);
+            result.put("addresses", addresses);
+            return result;
+        }else{
+            throw new Exception("Bad User");
+        }
+    }
+//NEED TO EDIT
+//    @PutMapping("/users/{id}")
+//    public User updateUser(@RequestBody User, @PathVariable Long id, HttpSession session) throws Exception{
+//        Optional<User> editedUser = userRepository.findById(id);
+//        if(editedUser.isPresent()){
+//            User userToEdit = editedUser.get();
+//            userToEdit.setUsername(User.username);
+//            session.setAttribute("username", userToEdit.getUsername());
+//            userToEdit.setPassword(userToEdit.getPassword());
+//            return userRepository.save(userToEdit);
+//        } else {
+//            throw new Exception("not a user");
+//        }
+//    }
+
+    @DeleteMapping("/users/{id}")
+    public Optional<User> deleteUser(@PathVariable Long id, HttpSession session) {
+        Optional<User> userToDelete = userRepository.findById(id);
+        session.removeAttribute("username");
+        session.removeAttribute("userId");
+        session.invalidate();
+        userRepository.deleteById(id);
+        return userToDelete;
+    }
+
+    }

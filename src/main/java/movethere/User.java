@@ -40,7 +40,7 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     @JsonIgnore
-    private Set<Address> adresses;
+    private Set<Address> addresses;
 
     public Long getId(){
         return id;
@@ -154,11 +154,11 @@ public class User {
         this.amenitiesImportance = amenitiesImportance;
     }
 
-    public Set<Address> getAdresses() {
-        return adresses;
+    public Set<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setAdresses(Set<Address> adresses) {
-        this.adresses = adresses;
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 }
