@@ -2,11 +2,10 @@ package movethere;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 
 @RestController
@@ -79,6 +78,16 @@ public class AddressController {
         return "address removed";
     }
 
+
+    @GetMapping("/addresses/walkscore")
+    public static String getWalkScore(@RequestHeader(value="url") String url) throws Exception{
+        final String uri = url;
+
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+
+        return result;
+    }
 
 
 }
