@@ -1,10 +1,12 @@
 package movethere;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.Optional;
 
 
@@ -89,5 +91,20 @@ public class AddressController {
         return result;
     }
 
+    @GetMapping("/addresses/yelp")
+    private static ResponseEntity<String> yelpInformation(@RequestHeader(value="url") String url, @RequestHeader(value="key") String yelpKey) throws Exception{
+        final String uri = url;
 
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + yelpKey);
+        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+        ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+
+        return result;
+    }
 }
+
