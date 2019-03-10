@@ -75,9 +75,9 @@ public class UserController {
     public User updateUser(@RequestBody User user, @PathVariable Long id, HttpSession session) throws Exception{
         Optional<User> editedUser = userRepository.findById(id);
         if(editedUser.isPresent()){
+            String startPassword = editedUser.get().getPassword();
             User userToEdit = editedUser.get();
             userToEdit.setUsername(user.getUsername());
-            userToEdit.setPassword(user.getPassword());
             userToEdit.setEmail(user.getEmail());
             userToEdit.setCurrentZip(user.getCurrentZip());
             userToEdit.setWalkabilityImportance(user.getWalkabilityImportance());
@@ -90,7 +90,12 @@ public class UserController {
             userToEdit.setNearbyAmenities(user.getNearbyAmenities());
             userToEdit.setAmenitiesImportance(user.getAmenitiesImportance());
             session.setAttribute("username", userToEdit.getUsername());
-            return userService.saveUser(userToEdit);
+            if(startPassword == user.getPassword()){
+                return userRepository.save(userToEdit);
+            } else {
+                userToEdit.setPassword(user.getPassword());
+                return userService.saveUser(userToEdit);
+            }
         } else {
             throw new Exception("not a user");
         }
