@@ -75,6 +75,7 @@ public class UserController {
     public User updateUser(@RequestBody User user, @PathVariable Long id, HttpSession session) throws Exception{
         Optional<User> editedUser = userRepository.findById(id);
         if(editedUser.isPresent()){
+            String sentPassword = user.getPassword();
             String startPassword = editedUser.get().getPassword();
             User userToEdit = editedUser.get();
             userToEdit.setUsername(user.getUsername());
@@ -90,9 +91,13 @@ public class UserController {
             userToEdit.setNearbyAmenities(user.getNearbyAmenities());
             userToEdit.setAmenitiesImportance(user.getAmenitiesImportance());
             session.setAttribute("username", userToEdit.getUsername());
-            if(startPassword == user.getPassword()){
+            System.out.print("sentpassword" + sentPassword);
+            System.out.print("startpassword" + startPassword);
+            if(startPassword.equals(sentPassword)){
+                System.out.print("Same Password");
                 return userRepository.save(userToEdit);
             } else {
+                System.out.print("Different Password");
                 userToEdit.setPassword(user.getPassword());
                 return userService.saveUser(userToEdit);
             }
