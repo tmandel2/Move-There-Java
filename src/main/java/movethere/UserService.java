@@ -3,7 +3,7 @@ package movethere;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
+//Requests go through here if they need password hashing
 @Service("userService")
 public class UserService {
 
@@ -17,11 +17,11 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public User findUserByUsername(String username) {
+    public Users findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public User saveUser(User user) {
+    public Users saveUser(Users user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return user;

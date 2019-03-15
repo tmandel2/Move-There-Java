@@ -11,8 +11,9 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+//                Will work for both deployed and local
                 .allowedOrigins(
-                        "http://localhost:3000")
+                        "https://move-there-app.herokuapp.com","http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                 .allowCredentials(true)
                 .allowedHeaders("*");

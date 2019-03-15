@@ -16,11 +16,11 @@ public class AddressController {
     private UserRepository userRepository;
     @Autowired
     private AddressRepository addressRepository;
-
+//Makes sure it gets assigned to the logged in user
     @PostMapping("/addresses")
     public Address createAddress(@RequestBody Address address, HttpSession session) throws Exception{
 
-        User user = userRepository.findByUsername(session.getAttribute("username").toString());
+        Users user = userRepository.findByUsername(session.getAttribute("username").toString());
         if(user == null){
             throw new Exception("You must log in");
         }
@@ -28,13 +28,13 @@ public class AddressController {
         Address createdAddress = addressRepository.save(address);
         return createdAddress;
     }
-
+//Everybody's addresses
     @GetMapping("/addresses")
     public Iterable<Address> getAddresses(){
         Iterable<Address> addresses = addressRepository.findAll();
         return addresses;
     }
-
+//Show route
     @GetMapping("/addresses/{id}")
     public Address showAddress(@PathVariable Long id){
         Address foundAddress = addressRepository.findById(id).get();
@@ -70,7 +70,9 @@ public class AddressController {
         return "address removed";
     }
 
-
+//Walk score needs to be handled on server side, as does Yelp.
+//    The request is mostly built on the client side and just sent over.
+//    Straight forward url api call for this and yelp below.
     @GetMapping("/addresses/walkscore")
     public static String getWalkScore(@RequestHeader(value="url") String url) throws Exception{
         final String uri = url;

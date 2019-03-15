@@ -11,7 +11,7 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private Users user;
 
     private String streetNumber;
 
@@ -30,7 +30,7 @@ public class Address {
     private Short walkScore;
 
     private Double medianAge;
-//    Diversity is the percentage of population not the majority
+//    Diversity is the percentage of population majority
     private Double diversity;
 //Median house cost divided by median income
     private Double houseValue;
@@ -47,11 +47,11 @@ public class Address {
         this.id = id;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

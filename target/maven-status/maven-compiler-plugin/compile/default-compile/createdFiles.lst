@@ -1,9 +1,9 @@
+movethere/Users.class
 movethere/SecurityConfiguration.class
 movethere/AddressController.class
 movethere/WebMvcConfig.class
 movethere/AddressRepository.class
 movethere/UserRepository.class
-movethere/User.class
 movethere/UserService.class
 movethere/UserController.class
 movethere/CorsConfig.class
